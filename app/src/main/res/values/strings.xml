@@ -1,0 +1,23 @@
+<resources>
+    <string name="app_name" translatable="false">InstaDev</string>
+<!--    LOGIN SCREEN    -->
+    <string name="login_screen_language_selector_spain">Español (España)</string>
+    <string name="login_screen_textfield_email">Usuario, correo electrónico o móvil</string>
+    <string name="login_screen_textfield_password">Contraseña</string>
+    <string name="login_screen_button_login">Iniciar sesion</string>
+    <string name="login_screen_text_button_forgot_password">¿Has olvidado la contraseña?</string>
+    <string name="login_screen_outlined_button_signup">Crear cuenta nueva</string>
+    <string name="signup_screen_whats_phone_number_text">¿Cuál es tu número de móvil?</string>
+    <string name="signup_screen_whats_email_text">¿Cuál es tu correo electrónico?</string>
+    <string name="signup_screen_phone_number_desc">Introduce tu número de móvil de contacto. Nadie lo verá en tu perfil</string>
+    <string name="signup_screen_email_desc">Introduce tu correo electrónico de contacto. Nadie lo verá en tu perfil</string>
+    <string name="signup_screen_textfield_phone_number">Número de móvil</string>
+    <string name="signup_screen_textfield_email">Correo electrónico</string>
+    <string name="signup_screen_phone_warning_text">Puede que recibas notificaciones nuestras en Whatsapp y por SMS por motivos de seguridad y para iniciar sesión</string>
+    <string name="signup_screen_email_warning_text">También te enviaremos correos electrónicos. Puedes cancelar esta opción cuando quieras.</string>
+    <string name="signup_screen_text_button_email_more_info">Más información</string>
+    <string name="signup_screen_button_next">Siguiente</string>
+    <string name="signup_screen_outlined_button_use_email">Registrarte con tu correo electrónico</string>
+    <string name="signup_screen_outlined_button_use_phone">Registrarte con tu número de móvil</string>
+    <string name="signup_screen_text_button_find_account">Buscar mi cuenta</string>
+</resources>

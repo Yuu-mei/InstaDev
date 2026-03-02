@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="login_screen_language_selector_spain">Spanish (Spain)</string>
+    <string name="login_screen_textfield_email">User, email or phone number</string>
+    <string name="login_screen_textfield_password">Password</string>
+    <string name="login_screen_button_login">Log In</string>
+    <string name="login_screen_text_button_forgot_password">Forgot your password?</string>
+    <string name="login_screen_outlined_button_signup">Create new account</string>
+    <string name="signup_screen_text_button_email_more_info">More information</string>
+    <string name="signup_screen_button_next">Next</string>
+    <string name="signup_screen_whats_phone_number_text">What\'s your phone number?</string>
+    <string name="signup_screen_whats_email_text">What\'s your email?</string>
+    <string name="signup_screen_phone_number_desc">Enter your phone number. No one will see it</string>
+    <string name="signup_screen_email_desc">Enter your email address. No one will see it</string>
+    <string name="signup_screen_textfield_phone_number">Phone number</string>
+    <string name="signup_screen_textfield_email">Email</string>
+    <string name="signup_screen_phone_warning_text">You may recieve notifications via Whatsapp and SMS for security and login purposes</string>
+    <string name="signup_screen_email_warning_text">We also will send you emails. You may cancel this subscription whenever you wish</string>
+    <string name="signup_screen_outlined_button_use_email">Sign up with your email</string>
+    <string name="signup_screen_outlined_button_use_phone">Sign up with your phone number</string>
+    <string name="signup_screen_text_button_find_account">Find my account</string>
+</resources>
