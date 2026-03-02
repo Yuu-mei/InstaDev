@@ -57,7 +57,9 @@ dependencies {
     implementation(libs.kotlinx.serialization.json)
 
     // NAV
-    implementation(libs.androidx.navigation.compose)
+    implementation(libs.androidx.navigation3.runtime)
+    implementation(libs.androidx.navigation3.ui)
+    implementation(libs.kotlinx.serialization.core)
 
     // DI
     implementation(libs.hilt.android)
