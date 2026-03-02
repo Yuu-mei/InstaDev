@@ -2,6 +2,7 @@
 
 package com.yuu.instadev.view.auth.signup
 
+import androidx.compose.animation.AnimatedContent
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -41,16 +42,34 @@ import com.yuu.instadev.view.core.components.InstaOutlinedButton
 import com.yuu.instadev.view.core.components.InstaText
 import com.yuu.instadev.view.core.components.InstaTextField
 
-@Preview(
-    showSystemUi = true
-)
 @Composable
 fun SignUpScreen(
     signUpViewModel: SignUpViewModel = SignUpViewModel(),
-    navigateBack: () -> Unit = {}
+    navigateBack: () -> Unit
 ) {
     val uiState: SignUpUIState by signUpViewModel.uiState.collectAsStateWithLifecycle()
     var isPhoneSignUp by remember { mutableStateOf(true) }
+
+    //Setting up vars for the texts themselves
+    var title: String
+    var desc: String
+    var label: String
+    var warningText: String
+    var outlinedButtonText: String
+
+    if (isPhoneSignUp) {
+        title = stringResource(R.string.signup_screen_whats_phone_number_text)
+        desc = stringResource(R.string.signup_screen_phone_number_desc)
+        label = stringResource(R.string.signup_screen_textfield_phone_number)
+        warningText = stringResource(R.string.signup_screen_phone_warning_text)
+        outlinedButtonText = stringResource(R.string.signup_screen_outlined_button_use_email)
+    } else {
+        title = stringResource(R.string.signup_screen_whats_email_text)
+        desc = stringResource(R.string.signup_screen_email_desc)
+        label = stringResource(R.string.signup_screen_textfield_email)
+        warningText = stringResource(R.string.signup_screen_email_warning_text)
+        outlinedButtonText = stringResource(R.string.signup_screen_outlined_button_use_phone)
+    }
 
     Scaffold(
         topBar = {
@@ -81,113 +100,61 @@ fun SignUpScreen(
                 .background(MaterialTheme.colorScheme.background),
             verticalArrangement = Arrangement.spacedBy(5.dp)
         ) {
-
-            if (isPhoneSignUp) {
+            AnimatedContent(title) { animatedTitle ->
                 InstaText(
-                    text = stringResource(R.string.signup_screen_whats_phone_number_text),
+                    text = animatedTitle,
                     style = MaterialTheme.typography.headlineSmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
-                InstaText(
-                    text = stringResource(R.string.signup_screen_phone_number_desc),
-                    style = MaterialTheme.typography.titleSmall,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant
-                )
-                InstaTextField(
-                    modifier = Modifier.fillMaxWidth(),
-                    label = stringResource(R.string.signup_screen_textfield_phone_number),
-                    value = uiState.phone,
-                    onValueChanged = { signUpViewModel.onPhoneChanged(it) },
-                    keyboardOptions = KeyboardOptions(
-                        keyboardType = KeyboardType.Phone
-                    ),
-                )
-                InstaText(
-                    text = stringResource(R.string.signup_screen_phone_warning_text),
-                    style = MaterialTheme.typography.labelMedium,
-                    color = MaterialTheme.colorScheme.onBackground
-                )
-                InstaButton(
-                    modifier = Modifier.fillMaxWidth(),
-                    onClick = {},
-                    enabled = uiState.enabledSignUp,
-                    text = stringResource(R.string.signup_screen_button_next)
-                )
-                InstaOutlinedButton(
-                    modifier = Modifier.fillMaxWidth(),
-                    onClick = {
-                        isPhoneSignUp = false
-                        signUpViewModel.invalidateSignUp()
-                    },
-                    text = stringResource(R.string.signup_screen_outlined_button_use_email),
-                    titleColor = MaterialTheme.colorScheme.onPrimary,
-                    border = BorderStroke(1.dp, MaterialTheme.colorScheme.onBackground),
-                )
-                Spacer(Modifier.weight(1f))
-                TextButton(
-                    onClick = {}
-                ) {
-                    InstaText(
-                        modifier = Modifier.fillMaxWidth(),
-                        text = stringResource(R.string.signup_screen_text_button_find_account),
-                        textAlign = TextAlign.Center,
-                        color = MaterialTheme.colorScheme.primary
-                    )
-                }
-            } else {
-                InstaText(
-                    text = stringResource(R.string.signup_screen_whats_email_text),
-                    style = MaterialTheme.typography.headlineSmall,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant
-                )
-                InstaText(
-                    text = stringResource(R.string.signup_screen_email_desc),
-                    style = MaterialTheme.typography.titleSmall,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant
-                )
-                InstaTextField(
-                    modifier = Modifier.fillMaxWidth(),
-                    label = stringResource(R.string.signup_screen_textfield_email),
-                    value = uiState.email,
-                    onValueChanged = { signUpViewModel.onEmailChanged(it) },
-                    keyboardOptions = KeyboardOptions(
-                        keyboardType = KeyboardType.Email
-                    ),
-                )
-                InstaText(
-                    text = stringResource(R.string.signup_screen_email_warning_text),
-                    style = MaterialTheme.typography.labelMedium,
-                    color = MaterialTheme.colorScheme.onBackground
-                )
-                InstaButton(
-                    modifier = Modifier.fillMaxWidth(),
-                    onClick = {},
-                    enabled = uiState.enabledSignUp,
-                    text = stringResource(R.string.signup_screen_button_next)
-                )
-                InstaOutlinedButton(
-                    modifier = Modifier.fillMaxWidth(),
-                    onClick = {
-                        isPhoneSignUp = true
-                        signUpViewModel.invalidateSignUp()
-                    },
-                    text = stringResource(R.string.signup_screen_outlined_button_use_phone),
-                    titleColor = MaterialTheme.colorScheme.onPrimary,
-                    border = BorderStroke(1.dp, MaterialTheme.colorScheme.onBackground),
-                )
-                Spacer(Modifier.weight(1f))
-                TextButton(
-                    onClick = {}
-                ) {
-                    InstaText(
-                        modifier = Modifier.fillMaxWidth(),
-                        text = stringResource(R.string.signup_screen_text_button_find_account),
-                        textAlign = TextAlign.Center,
-                        color = MaterialTheme.colorScheme.primary
-                    )
-                }
             }
-
+            InstaText(
+                text = desc,
+                style = MaterialTheme.typography.titleSmall,
+                color = MaterialTheme.colorScheme.onSurfaceVariant
+            )
+            InstaTextField(
+                modifier = Modifier.fillMaxWidth(),
+                label = label,
+                value = if(isPhoneSignUp) uiState.phone else uiState.email,
+                onValueChanged = {
+                    if(isPhoneSignUp) signUpViewModel.onPhoneChanged(it) else signUpViewModel.onEmailChanged(it)
+                },
+                keyboardOptions = KeyboardOptions(
+                    keyboardType = if(isPhoneSignUp) KeyboardType.Phone else KeyboardType.Email
+                ),
+            )
+            InstaText(
+                text = warningText,
+                style = MaterialTheme.typography.labelMedium,
+                color = MaterialTheme.colorScheme.onBackground
+            )
+            InstaButton(
+                modifier = Modifier.fillMaxWidth(),
+                onClick = {},
+                enabled = uiState.enabledSignUp,
+                text = stringResource(R.string.signup_screen_button_next)
+            )
+            InstaOutlinedButton(
+                modifier = Modifier.fillMaxWidth(),
+                onClick = {
+                    isPhoneSignUp = !isPhoneSignUp
+                    signUpViewModel.invalidateSignUp()
+                },
+                text = outlinedButtonText,
+                titleColor = MaterialTheme.colorScheme.onPrimary,
+                border = BorderStroke(1.dp, MaterialTheme.colorScheme.onBackground),
+            )
+            Spacer(Modifier.weight(1f))
+            TextButton(
+                onClick = {}
+            ) {
+                InstaText(
+                    modifier = Modifier.fillMaxWidth(),
+                    text = stringResource(R.string.signup_screen_text_button_find_account),
+                    textAlign = TextAlign.Center,
+                    color = MaterialTheme.colorScheme.primary
+                )
+            }
         }
     }
 }

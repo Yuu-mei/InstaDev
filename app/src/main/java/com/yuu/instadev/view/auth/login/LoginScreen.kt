@@ -38,7 +38,7 @@ import com.yuu.instadev.view.core.components.InstaOutlinedButton
 import com.yuu.instadev.view.core.components.InstaText
 
 @Composable
-fun LoginScreen(loginViewModel: LoginViewModel = viewModel(), navigateCreateAccount:() -> Unit) {
+fun LoginScreen(loginViewModel: LoginViewModel = viewModel(), navigateToSignUp:() -> Unit) {
     val uiState: LoginUIState by loginViewModel.uiState.collectAsStateWithLifecycle()
 
     Scaffold { padding ->
@@ -101,7 +101,7 @@ fun LoginScreen(loginViewModel: LoginViewModel = viewModel(), navigateCreateAcco
             Spacer(Modifier.weight(1f))
             InstaButton(
                 modifier = Modifier.fillMaxWidth(),
-                onClick = {navigateCreateAccount()},
+                onClick = {navigateToSignUp()},
                 text = stringResource(R.string.login_screen_outlined_button_signup)
             )
             Icon(
