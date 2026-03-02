@@ -1,6 +1,5 @@
 package com.yuu.instadev.view.auth.login
 
-import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
@@ -13,11 +12,8 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.TextButton
@@ -28,17 +24,15 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.yuu.instadev.R
 import com.yuu.instadev.view.core.components.InstaButton
-import com.yuu.instadev.view.core.components.InstaOutlinedButton
 import com.yuu.instadev.view.core.components.InstaText
 
 @Composable
-fun LoginScreen(loginViewModel: LoginViewModel = viewModel(), navigateToSignUp:() -> Unit) {
+fun LoginScreen(loginViewModel: LoginViewModel = hiltViewModel(), navigateToSignUp: () -> Unit) {
     val uiState: LoginUIState by loginViewModel.uiState.collectAsStateWithLifecycle()
 
     Scaffold { padding ->
@@ -87,7 +81,7 @@ fun LoginScreen(loginViewModel: LoginViewModel = viewModel(), navigateToSignUp:(
             Spacer(Modifier.height(10.dp))
             InstaButton(
                 modifier = Modifier.fillMaxWidth(),
-                onClick = {},
+                onClick = { loginViewModel.onLoginClicked() },
                 enabled = uiState.isLoadingEnabled,
                 shape = MaterialTheme.shapes.extraLarge,
                 text = stringResource(R.string.login_screen_button_login)
@@ -101,7 +95,7 @@ fun LoginScreen(loginViewModel: LoginViewModel = viewModel(), navigateToSignUp:(
             Spacer(Modifier.weight(1f))
             InstaButton(
                 modifier = Modifier.fillMaxWidth(),
-                onClick = {navigateToSignUp()},
+                onClick = { navigateToSignUp() },
                 text = stringResource(R.string.login_screen_outlined_button_signup)
             )
             Icon(

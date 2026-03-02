@@ -2,6 +2,8 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.jetbrainsKotlinSerialization)
+    alias(libs.plugins.hilt)
+    alias(libs.plugins.ksp)
 }
 
 android {
@@ -37,6 +39,7 @@ android {
     }
     buildFeatures {
         compose = true
+        buildConfig = true
     }
 }
 
@@ -55,6 +58,15 @@ dependencies {
 
     // NAV
     implementation(libs.androidx.navigation.compose)
+
+    // DI
+    implementation(libs.hilt.android)
+    implementation(libs.hilt.navigation)
+    ksp(libs.hilt.compiler)
+
+    // RETROFIT
+    implementation(libs.retrofit)
+    implementation(libs.retrofit.adapter)
 
     // TESTING
     testImplementation(libs.junit)

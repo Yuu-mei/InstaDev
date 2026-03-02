@@ -35,6 +35,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.yuu.instadev.R
 import com.yuu.instadev.view.core.components.InstaButton
@@ -44,7 +45,7 @@ import com.yuu.instadev.view.core.components.InstaTextField
 
 @Composable
 fun SignUpScreen(
-    signUpViewModel: SignUpViewModel = SignUpViewModel(),
+    signUpViewModel: SignUpViewModel = hiltViewModel(),
     navigateBack: () -> Unit
 ) {
     val uiState: SignUpUIState by signUpViewModel.uiState.collectAsStateWithLifecycle()
