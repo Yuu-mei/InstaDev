@@ -4,6 +4,7 @@ plugins {
     alias(libs.plugins.jetbrainsKotlinSerialization)
     alias(libs.plugins.hilt)
     alias(libs.plugins.ksp)
+    alias(libs.plugins.google.gms.google.services)
 }
 
 android {
@@ -64,11 +65,16 @@ dependencies {
     // DI
     implementation(libs.hilt.android)
     implementation(libs.hilt.navigation)
+    implementation(libs.firebase.auth)
     ksp(libs.hilt.compiler)
 
     // RETROFIT
     implementation(libs.retrofit)
     implementation(libs.retrofit.adapter)
+
+    // FIREBASE
+    implementation(platform("com.google.firebase:firebase-bom:34.10.0"))
+    implementation(libs.firebase.auth)
 
     // TESTING
     testImplementation(libs.junit)

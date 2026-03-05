@@ -10,4 +10,6 @@ sealed class Routes: NavKey{
     data object SignUp: Routes()
     @Serializable
     data object Error: Routes()
+    @Serializable
+    data object Timeline: Routes()
 }

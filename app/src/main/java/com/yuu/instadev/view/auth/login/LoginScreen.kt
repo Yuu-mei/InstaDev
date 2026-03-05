@@ -1,5 +1,6 @@
 package com.yuu.instadev.view.auth.login
 
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
@@ -16,9 +17,15 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Snackbar
+import androidx.compose.material3.SnackbarDuration
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
@@ -28,14 +35,49 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.yuu.instadev.R
+import com.yuu.instadev.ui.theme.SuccessGreen
 import com.yuu.instadev.view.core.components.InstaButton
 import com.yuu.instadev.view.core.components.InstaText
+import kotlinx.coroutines.withContext
 
 @Composable
-fun LoginScreen(loginViewModel: LoginViewModel = hiltViewModel(), navigateToSignUp: () -> Unit) {
+fun LoginScreen(loginViewModel: LoginViewModel = hiltViewModel(), navigateToSignUp: () -> Unit, navigateToTimeline: () -> Unit) {
     val uiState: LoginUIState by loginViewModel.uiState.collectAsStateWithLifecycle()
+    val snackbarHostState = remember { SnackbarHostState() }
 
-    Scaffold { padding ->
+    LaunchedEffect(uiState.success) {
+        if(!uiState.isLoading && uiState.success){
+            snackbarHostState.showSnackbar(
+                message = "Loggin in...",
+                duration = SnackbarDuration.Short
+            )
+            navigateToTimeline()
+        }
+    }
+
+    LaunchedEffect(uiState.error) {
+        if(!uiState.isLoading && uiState.error != null){
+            snackbarHostState.showSnackbar(
+                message = "Incorrect credentials",
+                duration = SnackbarDuration.Short
+            )
+        }
+    }
+
+    Scaffold(
+        snackbarHost = {
+            SnackbarHost(
+                hostState = snackbarHostState,
+                snackbar = {snackbarData ->
+                    Snackbar(
+                        snackbarData = snackbarData,
+                        containerColor = if(uiState.success) SuccessGreen else MaterialTheme.colorScheme.error,
+                        contentColor = if(uiState.success) MaterialTheme.colorScheme.onPrimary else MaterialTheme.colorScheme.onError
+                    )
+                }
+            )
+        }
+    ) { padding ->
         Column(
             Modifier
                 .padding(padding)
@@ -81,7 +123,7 @@ fun LoginScreen(loginViewModel: LoginViewModel = hiltViewModel(), navigateToSign
             Spacer(Modifier.height(10.dp))
             InstaButton(
                 modifier = Modifier.fillMaxWidth(),
-                onClick = { loginViewModel.onLoginClicked() },
+                onClick = { loginViewModel.onLoginClickedFirebase() },
                 enabled = uiState.isLoadingEnabled,
                 shape = MaterialTheme.shapes.extraLarge,
                 text = stringResource(R.string.login_screen_button_login)

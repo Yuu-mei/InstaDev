@@ -2,15 +2,15 @@ package com.yuu.instadev.data.response
 
 import com.yuu.instadev.domain.entity.UserEntity
 import com.yuu.instadev.domain.entity.UserType.*
-import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
 data class UserResponse(
     val userID: String,
-    @SerialName("na-me") val name: String,
+//    @SerialName("na-me") val name: String,
+    val name: String,
     val nickname: String,
-    val followers: Int,
+    val followers: List<String>,
     val following: List<String>,
     val userType: Int
 )

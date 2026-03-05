@@ -1,5 +1,6 @@
 package com.yuu.instadev.data.di
 
+import com.google.firebase.auth.FirebaseAuth
 import com.yuu.instadev.data.Config
 import com.yuu.instadev.data.datasource.api.ApiService
 import com.yuu.instadev.data.repository.AuthRepositoryImp
@@ -17,8 +18,8 @@ import retrofit2.converter.kotlinx.serialization.asConverterFactory
 @InstallIn(SingletonComponent::class)
 object DataModule {
     @Provides
-    fun provideAuthRepository(api: ApiService): AuthRepository{
-        return AuthRepositoryImp(api)
+    fun provideAuthRepository(api: ApiService, firebaseAuth: FirebaseAuth): AuthRepository{
+        return AuthRepositoryImp(api, firebaseAuth)
     }
 
     @Provides
@@ -42,4 +43,7 @@ object DataModule {
             isLenient = true
         }
     }
+
+    @Provides
+    fun provideFirebaseAuth(): FirebaseAuth = FirebaseAuth.getInstance()
 }

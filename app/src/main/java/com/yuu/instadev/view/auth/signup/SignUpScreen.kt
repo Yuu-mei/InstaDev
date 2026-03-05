@@ -19,10 +19,15 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Snackbar
+import androidx.compose.material3.SnackbarDuration
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -38,6 +43,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.yuu.instadev.R
+import com.yuu.instadev.ui.theme.SuccessGreen
 import com.yuu.instadev.view.core.components.InstaButton
 import com.yuu.instadev.view.core.components.InstaOutlinedButton
 import com.yuu.instadev.view.core.components.InstaText
@@ -46,10 +52,30 @@ import com.yuu.instadev.view.core.components.InstaTextField
 @Composable
 fun SignUpScreen(
     signUpViewModel: SignUpViewModel = hiltViewModel(),
-    navigateBack: () -> Unit
+    navigateBack: () -> Unit = {}
 ) {
     val uiState: SignUpUIState by signUpViewModel.uiState.collectAsStateWithLifecycle()
     var isPhoneSignUp by remember { mutableStateOf(true) }
+    val snackbarHostState = remember { SnackbarHostState() }
+
+    LaunchedEffect(uiState.success) {
+        if(!uiState.isLoading && uiState.success){
+            snackbarHostState.showSnackbar(
+                message = "Signed Up Successfully",
+                duration = SnackbarDuration.Short
+            )
+        }
+        navigateBack()
+    }
+
+    LaunchedEffect(uiState.error) {
+        if(!uiState.isLoading && uiState.error != null){
+            snackbarHostState.showSnackbar(
+                message = uiState.error!!,
+                duration = SnackbarDuration.Short
+            )
+        }
+    }
 
     //Setting up vars for the texts themselves
     var title: String
@@ -57,6 +83,7 @@ fun SignUpScreen(
     var label: String
     var warningText: String
     var outlinedButtonText: String
+    val passwordLabel: String = stringResource(R.string.login_screen_textfield_password)
 
     if (isPhoneSignUp) {
         title = stringResource(R.string.signup_screen_whats_phone_number_text)
@@ -91,6 +118,18 @@ fun SignUpScreen(
                     containerColor = MaterialTheme.colorScheme.background
                 )
             )
+        },
+        snackbarHost = {
+            SnackbarHost(
+                hostState = snackbarHostState,
+                snackbar = { snackbarData ->
+                    Snackbar(
+                        snackbarData = snackbarData,
+                        containerColor = if(uiState.success) SuccessGreen else MaterialTheme.colorScheme.error,
+                        contentColor = if(uiState.success) MaterialTheme.colorScheme.onPrimary else MaterialTheme.colorScheme.onError
+                    )
+                }
+            )
         }
     ) { padding ->
         Column(
@@ -124,6 +163,15 @@ fun SignUpScreen(
                     keyboardType = if(isPhoneSignUp) KeyboardType.Phone else KeyboardType.Email
                 ),
             )
+            InstaTextField(
+                modifier = Modifier.fillMaxWidth(),
+                label = passwordLabel,
+                value = uiState.password,
+                onValueChanged = { signUpViewModel.onPasswordChanged(it) },
+                keyboardOptions = KeyboardOptions(
+                    keyboardType = KeyboardType.Password
+                ),
+            )
             InstaText(
                 text = warningText,
                 style = MaterialTheme.typography.labelMedium,
@@ -131,7 +179,7 @@ fun SignUpScreen(
             )
             InstaButton(
                 modifier = Modifier.fillMaxWidth(),
-                onClick = {},
+                onClick = { signUpViewModel.signUpFirebase() },
                 enabled = uiState.enabledSignUp,
                 text = stringResource(R.string.signup_screen_button_next)
             )

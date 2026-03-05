@@ -4,7 +4,7 @@ data class UserEntity(
     val userID: String,
     val name: String,
     val nickname: String,
-    val followers: Int,
+    val followers: List<String>,
     val following: List<String>,
     val userType: UserType
 )

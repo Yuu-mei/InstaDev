@@ -20,4 +20,7 @@
     <string name="signup_screen_outlined_button_use_email">Registrarte con tu correo electrónico</string>
     <string name="signup_screen_outlined_button_use_phone">Registrarte con tu número de móvil</string>
     <string name="signup_screen_text_button_find_account">Buscar mi cuenta</string>
+    <string name="error_screen_title_text" translatable="false">ERROR</string>
+    <string name="error_screen_main_text">Algo fue mal. No deberias estar aquí :(</string>
+    <string name="error_screen_button_text">Volver</string>
 </resources>

@@ -19,4 +19,6 @@
     <string name="signup_screen_outlined_button_use_email">Sign up with your email</string>
     <string name="signup_screen_outlined_button_use_phone">Sign up with your phone number</string>
     <string name="signup_screen_text_button_find_account">Find my account</string>
+    <string name="error_screen_main_text">Something went wrong. You shouldn\'t be here :(</string>
+    <string name="error_screen_button_text">Back</string>
 </resources>

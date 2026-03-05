@@ -6,12 +6,10 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.yuu.instadev.domain.usecase.LoginUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 @HiltViewModel
@@ -33,16 +31,39 @@ class LoginViewModel @Inject constructor(val login: LoginUseCase): ViewModel(){
         verifyFields()
     }
 
-    fun onLoginClicked(){
-        viewModelScope.launch(Dispatchers.IO) {
-            val res = login(_uiState.value.email, _uiState.value.password)
+//    fun onLoginClicked(){
+//        viewModelScope.launch(Dispatchers.IO) {
+//            val res = login(_uiState.value.email, _uiState.value.password)
+//
+//            withContext(Dispatchers.Main){
+//                if(res != null){
+//                    Log.i("LOGIN", "SUCCESS $res")
+//                }else{
+//                    Log.e("ERROR", "ERROR LOGIN VIEWMODEL")
+//                }
+//            }
+//        }
+//    }
 
-            withContext(Dispatchers.Main){
-                if(res != null){
-                    Log.i("LOGIN", "SUCCESS ${res.nickname}")
-                }else{
-                    Log.e("ERROR", "ERROR LOGIN VIEWMODEL")
+    fun onLoginClickedFirebase(){
+        viewModelScope.launch {
+            _uiState.update { state ->
+                state.copy(isLoading = true, error = null, success = false)
+            }
+
+            try {
+                val user = login.invoke(_uiState.value.email, _uiState.value.password)
+
+                _uiState.update { state ->
+                    state.copy(isLoading = false, error = null, success = true)
                 }
+                Log.i("LOGIN", "SUCCESS")
+                Log.i("LOGIN", "${user.userID} - ${user.email}")
+            } catch (e: Exception){
+                _uiState.update { state ->
+                    state.copy(isLoading = false, error = e.message, success = false)
+                }
+                Log.e("LOGIN ERROR", "${e.message}")
             }
         }
     }
@@ -62,5 +83,7 @@ data class LoginUIState(
     val email: String = "",
     val password: String = "",
     val isLoading: Boolean = false,
-    val isLoadingEnabled: Boolean = false
+    val isLoadingEnabled: Boolean = false,
+    val error: String? = null,
+    val success: Boolean = false
 )

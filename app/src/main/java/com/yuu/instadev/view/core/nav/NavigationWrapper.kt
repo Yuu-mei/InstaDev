@@ -10,11 +10,13 @@ import androidx.navigation3.runtime.rememberNavBackStack
 import androidx.navigation3.ui.NavDisplay
 import com.yuu.instadev.view.auth.login.LoginScreen
 import com.yuu.instadev.view.auth.signup.SignUpScreen
+import com.yuu.instadev.view.core.error.ErrorScreen
 import com.yuu.instadev.view.core.nav.Routes.Login
 import com.yuu.instadev.view.core.nav.Routes.SignUp
+import com.yuu.instadev.view.core.nav.Routes.Error
 
 @Composable
-fun NavigationWrapper(){
+fun NavigationWrapper() {
     val backStack = rememberNavBackStack(Login)
 
     NavDisplay(
@@ -22,12 +24,18 @@ fun NavigationWrapper(){
         onBack = { backStack.removeLastOrNull() },
         entryProvider = entryProvider {
             entry<Login> {
-                LoginScreen() {
-                    backStack.add(SignUp)
+                LoginScreen(
+                    navigateToSignUp = { backStack.add(SignUp) },
+                    navigateToTimeline = {}
+                )
+            }
+            entry<SignUp> {
+                SignUpScreen() {
+                    backStack.removeLastOrNull()
                 }
             }
-            entry<SignUp>{
-                SignUpScreen() {
+            entry<Error> {
+                ErrorScreen() {
                     backStack.removeLastOrNull()
                 }
             }
