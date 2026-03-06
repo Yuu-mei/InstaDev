@@ -61,11 +61,11 @@ fun SignUpScreen(
     LaunchedEffect(uiState.success) {
         if(!uiState.isLoading && uiState.success){
             snackbarHostState.showSnackbar(
-                message = "Signed Up Successfully",
+                message = "Verify your email account to use the app!",
                 duration = SnackbarDuration.Short
             )
+            navigateBack()
         }
-        navigateBack()
     }
 
     LaunchedEffect(uiState.error) {

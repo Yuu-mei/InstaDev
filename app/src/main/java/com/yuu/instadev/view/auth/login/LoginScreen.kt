@@ -1,8 +1,8 @@
 package com.yuu.instadev.view.auth.login
 
-import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -38,7 +38,6 @@ import com.yuu.instadev.R
 import com.yuu.instadev.ui.theme.SuccessGreen
 import com.yuu.instadev.view.core.components.InstaButton
 import com.yuu.instadev.view.core.components.InstaText
-import kotlinx.coroutines.withContext
 
 @Composable
 fun LoginScreen(loginViewModel: LoginViewModel = hiltViewModel(), navigateToSignUp: () -> Unit, navigateToTimeline: () -> Unit) {
@@ -58,7 +57,7 @@ fun LoginScreen(loginViewModel: LoginViewModel = hiltViewModel(), navigateToSign
     LaunchedEffect(uiState.error) {
         if(!uiState.isLoading && uiState.error != null){
             snackbarHostState.showSnackbar(
-                message = "Incorrect credentials",
+                message = uiState.error!!,
                 duration = SnackbarDuration.Short
             )
         }
@@ -88,7 +87,9 @@ fun LoginScreen(loginViewModel: LoginViewModel = hiltViewModel(), navigateToSign
         ) {
             InstaText(
                 text = stringResource(R.string.login_screen_language_selector_spain),
-                modifier = Modifier.padding(top = 22.dp),
+                modifier = Modifier
+                    .padding(top = 22.dp)
+                    .clickable(onClick = {}),
             )
             Spacer(Modifier.weight(1f))
             Image(

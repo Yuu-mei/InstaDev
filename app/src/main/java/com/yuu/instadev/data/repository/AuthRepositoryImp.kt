@@ -32,6 +32,7 @@ class AuthRepositoryImp @Inject constructor(val api: ApiService, val firebaseAut
             .await()
 
         val user = res.user ?: throw IllegalStateException("Incorrect credentials")
+        if(!user.isEmailVerified) throw Exception("Please verify your email")
 
         return UserFirebaseEntity(
             userID = user.uid,
@@ -45,6 +46,7 @@ class AuthRepositoryImp @Inject constructor(val api: ApiService, val firebaseAut
             .await()
 
         val user = res.user ?: throw IllegalStateException("Email already in use")
+        user.sendEmailVerification()
 
         return UserFirebaseEntity(
             userID = user.uid,
