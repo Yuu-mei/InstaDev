@@ -7,15 +7,20 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.VisualTransformation
 
 @Composable
 fun InstaTextField(
-    value: String,
-    onValueChanged: (String) -> Unit,
     modifier: Modifier = Modifier,
+    value: String,
+    singleLine: Boolean = true,
+    onValueChanged: (String) -> Unit,
     shape: Shape = MaterialTheme.shapes.large,
     label: String = "",
-    keyboardOptions: KeyboardOptions
+    keyboardOptions: KeyboardOptions,
+    visualTransformation: VisualTransformation = VisualTransformation.None,
+    leadingIcon: @Composable (() -> Unit)? = null,
+    trailingIcon: @Composable (() -> Unit)? = null,
 ) {
     OutlinedTextField(
         modifier = modifier,
@@ -25,6 +30,9 @@ fun InstaTextField(
         value = value,
         onValueChange = { onValueChanged(it) },
         keyboardOptions = keyboardOptions,
-        shape = shape
+        shape = shape,
+        visualTransformation = visualTransformation,
+        leadingIcon = leadingIcon,
+        trailingIcon = trailingIcon
     )
 }

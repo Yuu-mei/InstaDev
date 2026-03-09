@@ -66,6 +66,7 @@ dependencies {
     implementation(libs.hilt.android)
     implementation(libs.hilt.navigation)
     implementation(libs.firebase.auth)
+    implementation(libs.firebase.firestore)
     ksp(libs.hilt.compiler)
 
     // RETROFIT

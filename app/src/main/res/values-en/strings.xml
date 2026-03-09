@@ -21,4 +21,8 @@
     <string name="signup_screen_text_button_find_account">Find my account</string>
     <string name="error_screen_main_text">Something went wrong. You shouldn\'t be here :(</string>
     <string name="error_screen_button_text">Back</string>
+    <string name="nav_bottom_bar_home_text">Home</string>
+    <string name="nav_bottom_bar_messages_text">Messages</string>
+    <string name="nav_bottom_bar_search_text">Search</string>
+    <string name="nav_bottom_bar_profile_text">Profile</string>
 </resources>

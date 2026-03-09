@@ -36,7 +36,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -160,7 +163,8 @@ fun SignUpScreen(
                     if(isPhoneSignUp) signUpViewModel.onPhoneChanged(it) else signUpViewModel.onEmailChanged(it)
                 },
                 keyboardOptions = KeyboardOptions(
-                    keyboardType = if(isPhoneSignUp) KeyboardType.Phone else KeyboardType.Email
+                    keyboardType = if(isPhoneSignUp) KeyboardType.Phone else KeyboardType.Email,
+                    imeAction = ImeAction.Next
                 ),
             )
             InstaTextField(
@@ -169,8 +173,18 @@ fun SignUpScreen(
                 value = uiState.password,
                 onValueChanged = { signUpViewModel.onPasswordChanged(it) },
                 keyboardOptions = KeyboardOptions(
-                    keyboardType = KeyboardType.Password
+                    keyboardType = KeyboardType.Password,
+                    imeAction = ImeAction.Done
                 ),
+                visualTransformation = if(!uiState.showPassword) PasswordVisualTransformation() else VisualTransformation.None,
+                trailingIcon = {
+                    IconButton(onClick = { signUpViewModel.onPasswordVisibilityToggled() }) {
+                        Icon(
+                            painter = painterResource(if(!uiState.showPassword) R.drawable.ic_invisible else R.drawable.ic_visible),
+                            contentDescription = if(!uiState.showPassword) "Hide Password" else "Show Password"
+                        )
+                    }
+                }
             )
             InstaText(
                 text = warningText,

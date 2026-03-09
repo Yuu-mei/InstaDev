@@ -23,4 +23,9 @@
     <string name="error_screen_title_text" translatable="false">ERROR</string>
     <string name="error_screen_main_text">Algo fue mal. No deberias estar aquí :(</string>
     <string name="error_screen_button_text">Volver</string>
+    <string name="nav_bottom_bar_home_text">Inicio</string>
+    <string name="nav_bottom_bar_reels_text" translatable="false">Reels</string>
+    <string name="nav_bottom_bar_messages_text">Mensajes</string>
+    <string name="nav_bottom_bar_search_text">Buscar</string>
+    <string name="nav_bottom_bar_profile_text">Perfil</string>
 </resources>

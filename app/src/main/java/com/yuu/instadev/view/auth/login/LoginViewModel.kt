@@ -32,6 +32,12 @@ class LoginViewModel @Inject constructor(private val login: LoginUseCase): ViewM
         verifyFields()
     }
 
+    fun onPasswordVisibilityToggled(){
+        _uiState.update { state ->
+            state.copy(showPassword = !state.showPassword)
+        }
+    }
+
 //    fun onLoginClicked(){
 //        viewModelScope.launch(Dispatchers.IO) {
 //            val res = login(_uiState.value.email, _uiState.value.password)
@@ -46,7 +52,7 @@ class LoginViewModel @Inject constructor(private val login: LoginUseCase): ViewM
 //        }
 //    }
 
-    fun onLoginClickedFirebase(){
+    fun onLoginClickedFirebase() : Boolean{
         viewModelScope.launch {
             _uiState.update { state ->
                 state.copy(isLoading = true, error = null, success = false)
@@ -58,8 +64,8 @@ class LoginViewModel @Inject constructor(private val login: LoginUseCase): ViewM
                 _uiState.update { state ->
                     state.copy(isLoading = false, error = null, success = true)
                 }
+
                 Log.i("LOGIN", "SUCCESS")
-                Log.i("LOGIN", "${user.userID} - ${user.email}")
             } catch (e: Exception){
                 _uiState.update { state ->
                     state.copy(isLoading = false, error = e.message, success = false)
@@ -67,12 +73,14 @@ class LoginViewModel @Inject constructor(private val login: LoginUseCase): ViewM
                 Log.e("LOGIN ERROR", "${e.message}")
             }
         }
+
+        return _uiState.value.success
     }
 
     private fun verifyFields(){
         val enabledLogin = isEmailValid(_uiState.value.email) && isPasswordValid(_uiState.value.password)
         _uiState.update { state ->
-            state.copy(isLoadingEnabled = enabledLogin)
+            state.copy(isLoggingEnabled = enabledLogin)
         }
     }
 
@@ -84,7 +92,8 @@ data class LoginUIState(
     val email: String = "",
     val password: String = "",
     val isLoading: Boolean = false,
-    val isLoadingEnabled: Boolean = false,
+    val isLoggingEnabled: Boolean = false,
+    val showPassword: Boolean = false,
     val error: String? = null,
     val success: Boolean = false
 )

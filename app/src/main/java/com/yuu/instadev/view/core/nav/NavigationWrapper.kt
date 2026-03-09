@@ -14,6 +14,8 @@ import com.yuu.instadev.view.core.error.ErrorScreen
 import com.yuu.instadev.view.core.nav.Routes.Login
 import com.yuu.instadev.view.core.nav.Routes.SignUp
 import com.yuu.instadev.view.core.nav.Routes.Error
+import com.yuu.instadev.view.core.nav.Routes.Timeline
+import com.yuu.instadev.view.timeline.TimelineScreen
 
 @Composable
 fun NavigationWrapper() {
@@ -26,7 +28,10 @@ fun NavigationWrapper() {
             entry<Login> {
                 LoginScreen(
                     navigateToSignUp = { backStack.add(SignUp) },
-                    navigateToTimeline = {}
+                    navigateToTimeline = {
+                        backStack.clear()
+                        backStack.add(Timeline)
+                    }
                 )
             }
             entry<SignUp> {
@@ -38,6 +43,9 @@ fun NavigationWrapper() {
                 ErrorScreen() {
                     backStack.removeLastOrNull()
                 }
+            }
+            entry<Timeline> {
+                TimelineScreen()
             }
         },
         transitionSpec = {

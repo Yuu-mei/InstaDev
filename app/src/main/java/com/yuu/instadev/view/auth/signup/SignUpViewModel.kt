@@ -36,6 +36,12 @@ class SignUpViewModel @Inject constructor(val signUp: SignUpUseCase): ViewModel(
         enableSignUpButton()
     }
 
+    fun onPasswordVisibilityToggled(){
+        _uiState.update { state ->
+            state.copy(showPassword = !state.showPassword)
+        }
+    }
+
     fun invalidateSignUp(){
         _uiState.update { state ->
             state.copy(email = "", phone = "", enabledSignUp = false)
@@ -89,6 +95,7 @@ data class SignUpUIState(
     val phone: String = "",
     val enabledSignUp: Boolean = false,
     val isLoading: Boolean = false,
+    val showPassword: Boolean = false,
     val success: Boolean = false,
     val error: String? = null
 )
