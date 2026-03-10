@@ -161,7 +161,8 @@ fun LoginScreen(loginViewModel: LoginViewModel = hiltViewModel(), navigateToSign
                 text = stringResource(R.string.login_screen_outlined_button_signup)
             )
             Image(
-                painter = painterResource(R.drawable.ic_instadev_company),
+                modifier = Modifier.padding(12.dp),
+                painter = painterResource(R.drawable.ic_instadev_company_logo),
                 contentDescription = "Instadev Company Logo"
             )
         }

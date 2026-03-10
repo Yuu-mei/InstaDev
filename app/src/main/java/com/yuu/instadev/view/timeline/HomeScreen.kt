@@ -1,17 +1,17 @@
 package com.yuu.instadev.view.timeline
 
-import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
-import com.yuu.instadev.R
-import com.yuu.instadev.view.core.components.InstaText
+import androidx.compose.ui.unit.dp
+import com.yuu.instadev.view.timeline.components.ReelComponent
 
 @Preview
 @Composable
@@ -23,13 +23,12 @@ fun HomeScreen(){
         state = reelsListState
     ) {
         items(25){
-            Image(
-                painter = painterResource(R.drawable.ic_launcher_background),
-                contentDescription = "Reel test",
-                modifier = Modifier.fillMaxWidth(),
-                contentScale = ContentScale.FillWidth
+            ReelComponent()
+            Spacer(Modifier.size(10.dp))
+            HorizontalDivider(
+                thickness = 8.dp,
+                color = MaterialTheme.colorScheme.primary
             )
-            InstaText(text = "Example text $it", modifier = Modifier.fillMaxWidth())
         }
     }
 }
