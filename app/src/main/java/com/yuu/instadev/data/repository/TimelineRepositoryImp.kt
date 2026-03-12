@@ -43,7 +43,7 @@ class TimelineRepositoryImp @Inject constructor(val fireStore: FirebaseFirestore
                 ).toDomain()
             }
         } catch (e: Exception){
-            Log.e("REEL", e.message ?: "Error 500");
+            Log.e("REEL", e.message ?: "Error 500")
             emptyList<ReelsFirebaseEntity>()
         }
     }
