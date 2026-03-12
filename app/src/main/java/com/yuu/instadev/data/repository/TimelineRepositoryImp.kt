@@ -119,7 +119,8 @@ class TimelineRepositoryImp @Inject constructor(
                 .await()
 
             likedReelsSnapshot.documents.forEach { doc ->
-                likedReels[doc.id] = true
+                val postID = doc.getString("postID")!!
+                likedReels[postID] = true
             }
         } catch (e: Exception) {
             Log.e("REEL", e.message ?: "Error retrieving the liked reels")
