@@ -20,12 +20,13 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.yuu.instadev.R
+import com.yuu.instadev.domain.entity.ReelsFirebaseEntity
 import com.yuu.instadev.view.core.components.InstaText
 
-@Preview
 @Composable
 fun ReelComponent(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    reel: ReelsFirebaseEntity
 ){
     Column(
         modifier = modifier.fillMaxWidth()
@@ -50,7 +51,7 @@ fun ReelComponent(
                         .size(32.dp)
                         .clip(CircleShape)
                 )
-                InstaText(text = "Username", style = MaterialTheme.typography.bodyLarge)
+                InstaText(text = reel.username, style = MaterialTheme.typography.bodyLarge)
             }
         }
         Row(
@@ -61,18 +62,18 @@ fun ReelComponent(
                 iconId = R.drawable.ic_fav,
                 onClick = {},
                 contentDescription = "Favorite Button",
-                iconText = "100"
+                iconText = reel.likeCount.toString()
             )
             //Comments Icon
             InstaRowIconButton(
                 iconId = R.drawable.ic_comments,
                 onClick = {},
                 contentDescription = "Favorite Button",
-                iconText = "20"
+                iconText = reel.commentCount.toString()
             )
         }
         InstaText(
-            text = "Example text",
+            text = reel.text,
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = 8.dp),

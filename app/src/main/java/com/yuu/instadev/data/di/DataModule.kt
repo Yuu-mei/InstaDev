@@ -5,7 +5,9 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.yuu.instadev.data.Config
 import com.yuu.instadev.data.datasource.api.ApiService
 import com.yuu.instadev.data.repository.AuthRepositoryImp
+import com.yuu.instadev.data.repository.TimelineRepositoryImp
 import com.yuu.instadev.domain.repository.AuthRepository
+import com.yuu.instadev.domain.repository.TimelineRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -21,6 +23,11 @@ object DataModule {
     @Provides
     fun provideAuthRepository(api: ApiService, firebaseAuth: FirebaseAuth, fireStore: FirebaseFirestore): AuthRepository{
         return AuthRepositoryImp(api, firebaseAuth, fireStore)
+    }
+
+    @Provides
+    fun provideTimelineRepository(fireStore: FirebaseFirestore): TimelineRepository{
+        return TimelineRepositoryImp(fireStore)
     }
 
     @Provides
