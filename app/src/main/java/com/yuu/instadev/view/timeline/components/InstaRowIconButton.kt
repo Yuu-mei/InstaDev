@@ -9,6 +9,7 @@ import androidx.compose.material3.LocalContentColor
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.yuu.instadev.view.core.components.InstaText
@@ -19,7 +20,8 @@ fun InstaRowIconButton(
     iconId: Int = 0,
     onClick: () -> Unit = {},
     iconText: String = "",
-    contentDescription: String = ""
+    contentDescription: String = "",
+    tint: Color = LocalContentColor.current
 ) {
     Row(
         modifier = modifier,
@@ -31,7 +33,7 @@ fun InstaRowIconButton(
             Icon(
                 painter = painterResource(iconId),
                 contentDescription = contentDescription,
-                tint = LocalContentColor.current
+                tint = tint
             )
         }
         Spacer(Modifier.width(8.dp))

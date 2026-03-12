@@ -26,8 +26,8 @@ object DataModule {
     }
 
     @Provides
-    fun provideTimelineRepository(fireStore: FirebaseFirestore): TimelineRepository{
-        return TimelineRepositoryImp(fireStore)
+    fun provideTimelineRepository(fireStore: FirebaseFirestore, firebaseAuth: FirebaseAuth): TimelineRepository{
+        return TimelineRepositoryImp(fireStore, firebaseAuth)
     }
 
     @Provides

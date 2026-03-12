@@ -28,7 +28,10 @@ fun HomeScreen(homeViewModel: HomeViewModel = hiltViewModel()){
         state = reelsListState
     ) {
         items(uiState.reels){ reel ->
-            ReelComponent(reel = reel)
+            ReelComponent(
+                reel = reel,
+                isReelLiked = uiState.likedReels[reel.postID] ?: false
+            ){ homeViewModel.likeReel(reel.postID) }
             Spacer(Modifier.size(10.dp))
             HorizontalDivider(
                 thickness = 8.dp,

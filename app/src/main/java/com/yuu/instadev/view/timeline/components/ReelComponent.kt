@@ -10,11 +10,13 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
@@ -25,7 +27,9 @@ import com.yuu.instadev.view.core.components.InstaText
 @Composable
 fun ReelComponent(
     modifier: Modifier = Modifier,
-    reel: ReelsFirebaseEntity
+    reel: ReelsFirebaseEntity,
+    isReelLiked: Boolean,
+    likeReel: (String) -> Unit
 ){
     Column(
         modifier = modifier.fillMaxWidth()
@@ -51,7 +55,7 @@ fun ReelComponent(
                         .clip(CircleShape)
                 )
                 Spacer(Modifier.width(10.dp))
-                InstaText(text = reel.username, style = MaterialTheme.typography.bodyLarge)
+                InstaText(text = reel.username, style = MaterialTheme.typography.bodyLarge, color = MaterialTheme.colorScheme.primary)
             }
         }
         Row(
@@ -60,9 +64,10 @@ fun ReelComponent(
             //Fav Icon
             InstaRowIconButton(
                 iconId = R.drawable.ic_fav,
-                onClick = {},
+                onClick = { likeReel(reel.postID) },
                 contentDescription = "Favorite Button",
-                iconText = reel.likeCount.toString()
+                iconText = reel.likeCount.toString(),
+                tint = if(isReelLiked) Color.Red else LocalContentColor.current
             )
             //Comments Icon
             InstaRowIconButton(

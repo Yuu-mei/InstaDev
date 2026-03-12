@@ -76,6 +76,9 @@ dependencies {
     // FIREBASE
     implementation(platform("com.google.firebase:firebase-bom:34.10.0"))
     implementation(libs.firebase.auth)
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.7.3")
 
     // TESTING
     testImplementation(libs.junit)
