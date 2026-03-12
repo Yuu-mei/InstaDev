@@ -20,6 +20,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import coil3.compose.AsyncImage
 import com.yuu.instadev.R
 import com.yuu.instadev.domain.entity.ReelsFirebaseEntity
 import com.yuu.instadev.view.core.components.InstaText
@@ -35,9 +36,9 @@ fun ReelComponent(
         modifier = modifier.fillMaxWidth()
     ) {
         Box(){
-            Image(
-                painter = painterResource(R.drawable.ic_launcher_background),
-                contentDescription = "Reel test",
+            AsyncImage(
+                model = reel.mediaURL,
+                contentDescription = "Image of reel",
                 modifier = Modifier.fillMaxWidth(),
                 contentScale = ContentScale.FillWidth
             )

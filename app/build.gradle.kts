@@ -80,6 +80,10 @@ dependencies {
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.7.3")
 
+    // COIL
+    implementation(libs.coil.compose)
+    implementation(libs.coil.network.okhttp)
+
     // TESTING
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
