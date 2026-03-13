@@ -30,7 +30,8 @@ fun ReelComponent(
     modifier: Modifier = Modifier,
     reel: ReelsFirebaseEntity,
     isReelLiked: Boolean,
-    likeReel: (String) -> Unit
+    likeReel: (String) -> Unit,
+    openCommentSection: () -> Unit
 ){
     Column(
         modifier = modifier.fillMaxWidth()
@@ -73,8 +74,8 @@ fun ReelComponent(
             //Comments Icon
             InstaRowIconButton(
                 iconId = R.drawable.ic_comments,
-                onClick = {},
-                contentDescription = "Favorite Button",
+                onClick = { openCommentSection() },
+                contentDescription = "Comment Button",
                 iconText = reel.commentCount.toString()
             )
         }

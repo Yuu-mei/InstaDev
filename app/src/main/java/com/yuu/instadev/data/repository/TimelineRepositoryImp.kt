@@ -4,9 +4,11 @@ import android.util.Log
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
+import com.yuu.instadev.data.response.CommentResponse
 import com.yuu.instadev.data.response.MediaType
 import com.yuu.instadev.data.response.ReelResponse
 import com.yuu.instadev.data.response.toDomain
+import com.yuu.instadev.domain.entity.CommentFirebaseEntity
 import com.yuu.instadev.domain.entity.ReelsFirebaseEntity
 import com.yuu.instadev.domain.repository.TimelineRepository
 import kotlinx.coroutines.tasks.await
@@ -16,6 +18,7 @@ import kotlinx.coroutines.channels.trySendBlocking
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.launch
+import kotlin.String
 
 
 class TimelineRepositoryImp @Inject constructor(
@@ -142,16 +145,11 @@ class TimelineRepositoryImp @Inject constructor(
                     val reels = snapshots?.documents?.map { reelDoc ->
                         val userID = reelDoc.getString("userID")!!
                         val timestamp = reelDoc.getTimestamp("createdAt")
-
-                        val userDoc = fireStore
-                            .collection("users")
-                            .document(userID)
-                            .get()
-                            .await()
+                        val username = obtainUsername(userID)
 
                         ReelResponse(
                             postID = reelDoc.id,
-                            userID = userDoc.data!!["username"] as String,
+                            userID = username,
                             mediaURL = reelDoc.getString("mediaURL")!!,
                             mediaType = if (reelDoc.getString("mediaType") == "image") MediaType.IMAGE else MediaType.VIDEO,
                             text = reelDoc.getString("text")!!,
@@ -166,6 +164,50 @@ class TimelineRepositoryImp @Inject constructor(
             }
 
         awaitClose{ listener.remove() }
+    }
+
+    override suspend fun doGetReelComments(reelID: String): List<CommentFirebaseEntity> {
+        val reelComments: MutableList<CommentFirebaseEntity> = mutableListOf()
+
+        try {
+            val commentReelsSnapshot = fireStore
+                .collection("comments")
+                .whereEqualTo("postID", reelID)
+                .get()
+                .await()
+
+            commentReelsSnapshot.documents.forEach { comment ->
+                val userID = comment.getString("userID")!!
+                val timeStamp = comment.getTimestamp("createdAt")
+                val username = obtainUsername(userID)
+
+                val commentEntity = CommentResponse(
+                    commentID = comment.id,
+                    postID = comment.getString("postID")!!,
+                    userID = username,
+                    parentCommentID = comment.getString("parentCommentID"),
+                    text = comment.getString("text")!!,
+                    likeCount = comment.getLong("likeCount")?.toInt()!!,
+                    createdAt = timeStamp!!.toDate().time
+                ).toDomain()
+
+                reelComments.add(commentEntity)
+            }
+        }catch (e: Exception){
+            Log.e("REEL COMMENT", "Error loading reel comments \n ${e.message}")
+        }
+
+        return reelComments
+    }
+
+    private suspend fun obtainUsername(userID: String): String{
+        val userDoc = fireStore
+            .collection("users")
+            .document(userID)
+            .get()
+            .await()
+
+        return userDoc.data!!["username"] as String
     }
 
 }
